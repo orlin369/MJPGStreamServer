@@ -50,6 +50,12 @@ namespace DiO_CS_WedCamStreamServer.StreamServer
         /// </summary>
         public int Port { get; private set; }
 
+        /// <summary>
+        /// Frames send to client.
+        /// </summary>
+        public ulong FrameCount { get; private set; }
+
+
         #endregion
 
         #region Events
@@ -78,6 +84,8 @@ namespace DiO_CS_WedCamStreamServer.StreamServer
             this.Port = port;
             
             this.httpListener.Prefixes.Add(String.Format("http://{0}:{1}/", this.Address, this.Port));
+
+            this.FrameCount = 0L;
         }
 
         #endregion
@@ -126,6 +134,8 @@ namespace DiO_CS_WedCamStreamServer.StreamServer
 
                     responseStream.Flush();
 
+                    this.FrameCount++;
+
                     System.Threading.Thread.Sleep(10);
                 }
             }
@@ -150,6 +160,9 @@ namespace DiO_CS_WedCamStreamServer.StreamServer
             {
                 this.OnStart(this, new EventArgs());
             }
+
+            // Clear
+            this.FrameCount = 0L;
 
             this.httpListener.Start();
 

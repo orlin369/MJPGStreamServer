@@ -1,4 +1,7 @@
-﻿using System;
+﻿//#define USE_EMGUCV
+#define NOT_USE_EMGUCV
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -14,10 +17,28 @@ namespace DiO_CS_WedCamStreamServer
 {
     public partial class MainForm : Form
     {
+
+        #region Variables
+
+#if USE_EMGUCV
+
+        /// <summary>
+        /// Camera capture.
+        /// </summary>
         Emgu.CV.Capture capture = new Emgu.CV.Capture(0);
+
+        /// <summary>
+        /// Date & Time font.
+        /// </summary>
         Emgu.CV.Structure.MCvFont f = new Emgu.CV.Structure.MCvFont(Emgu.CV.CvEnum.FONT.CV_FONT_HERSHEY_COMPLEX, 1.0, 1.0);
+
+#endif
+        /// <summary>
+        /// MJPG Streaming server.
+        /// </summary>
         private Server server = null;
 
+        #endregion
 
         #region Constructor
 
@@ -196,11 +217,20 @@ namespace DiO_CS_WedCamStreamServer
 
         private void server_GetImage(object sender, MessageImg e)
         {
-            //e.Image = GetImage();
+            
+#if USE_EMGUCV
+
             Emgu.CV.Image<Emgu.CV.Structure.Bgr, byte> image = this.capture.QueryFrame();
             string dateAndTime = DateTime.Now.ToString("yyyy.MM.dd/HH:mm:ss.fff", System.Globalization.DateTimeFormatInfo.InvariantInfo);
             image.Draw(dateAndTime, ref f, new Point(10, 30), new Emgu.CV.Structure.Bgr(0, 255, 0));
             e.Image = image.Bitmap;
+
+#elif NOT_USE_EMGUCV
+
+            e.Image = GetImage();
+
+#endif
+
         }
 
         private void server_OnStop(object sender, EventArgs e)
