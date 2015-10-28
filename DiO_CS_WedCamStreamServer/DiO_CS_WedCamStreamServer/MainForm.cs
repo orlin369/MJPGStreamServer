@@ -74,23 +74,13 @@ namespace DiO_CS_WedCamStreamServer
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            IPAddress[] addresses = this.GetAddresses();
-
-            if (addresses.Length > 0)
-            {
-                this.cmbIPAddresses.DataSource = addresses;
-                this.cmbIPAddresses.Text = addresses[0].ToString();
-            }
-
-            IPAddress localIPAddress = addresses[0];
             int localPort = 8080;
 
             // Get settings
-            IPAddress.TryParse(this.cmbIPAddresses.Text, out localIPAddress);
             int.TryParse(this.txtPort.Text, out localPort);
 
             // Set the server.
-            this.server = new Server(localIPAddress, localPort);
+            this.server = new Server(localPort);
 
             // Add a link to the LinkLabel.
             string linkString = String.Format("http://{0}:{1}/", this.server.Address, this.server.Port);
@@ -113,22 +103,6 @@ namespace DiO_CS_WedCamStreamServer
         #endregion
 
         #region Private Methods
-
-        private IPAddress[] GetAddresses()
-        {
-            List<IPAddress> addresses = new List<IPAddress>();
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-
-            foreach (IPAddress ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    addresses.Add(ip);
-                }
-            }
-
-            return addresses.ToArray();
-        }
 
         /// <summary>
         /// Example image
@@ -164,15 +138,12 @@ namespace DiO_CS_WedCamStreamServer
                 this.server.Stop();
             }
 
-            IPAddress localIPAddress = IPAddress.Loopback;
             int localPort = 8080;
 
-            // Get settings
-            IPAddress.TryParse(this.cmbIPAddresses.Text, out localIPAddress);
             int.TryParse(this.txtPort.Text, out localPort);
 
             // Set the server.
-            this.server = new Server(localIPAddress, localPort);
+            this.server = new Server(localPort);
             this.server.OnStart += server_OnStart;
             this.server.OnStop += server_OnStop;
             this.server.OnGetImage += this.server_GetImage;

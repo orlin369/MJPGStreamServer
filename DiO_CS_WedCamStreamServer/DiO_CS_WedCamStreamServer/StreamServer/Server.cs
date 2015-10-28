@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
@@ -88,6 +90,26 @@ namespace DiO_CS_WedCamStreamServer.StreamServer
             this.FrameCount = 0L;
         }
 
+        public Server(int port)
+        {
+            this.Port = port;
+
+            IPAddress[] addresses = GetAddresses();
+
+            if(addresses.Length <= 0)
+            {
+                throw new ArrayTypeMismatchException("Invalid address list.");
+            }
+
+            this.Address = addresses[0];
+            foreach (IPAddress address in addresses)
+            {
+                this.httpListener.Prefixes.Add(String.Format("http://{0}:{1}/", address, this.Port));
+            }
+
+            this.FrameCount = 0L;
+        }
+
         #endregion
 
         #region Private Methods
@@ -136,7 +158,7 @@ namespace DiO_CS_WedCamStreamServer.StreamServer
 
                     this.FrameCount++;
 
-                    System.Threading.Thread.Sleep(10);
+                    System.Threading.Thread.Sleep(20);
                 }
             }
             catch (Exception exception)
@@ -145,6 +167,22 @@ namespace DiO_CS_WedCamStreamServer.StreamServer
             }
 
             this.Stop();
+        }
+
+        private IPAddress[] GetAddresses()
+        {
+            List<IPAddress> addresses = new List<IPAddress>();
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    addresses.Add(ip);
+                }
+            }
+
+            return addresses.ToArray();
         }
 
         #endregion

@@ -28,24 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cmbIPAddresses = new System.Windows.Forms.ComboBox();
             this.linkLblPageLink = new System.Windows.Forms.LinkLabel();
-            this.lblIPAddress = new System.Windows.Forms.Label();
             this.lblPort = new System.Windows.Forms.Label();
             this.txtPort = new System.Windows.Forms.TextBox();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.lblServerState = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // cmbIPAddresses
-            // 
-            this.cmbIPAddresses.FormattingEnabled = true;
-            this.cmbIPAddresses.Location = new System.Drawing.Point(168, 14);
-            this.cmbIPAddresses.Name = "cmbIPAddresses";
-            this.cmbIPAddresses.Size = new System.Drawing.Size(100, 21);
-            this.cmbIPAddresses.TabIndex = 17;
-            this.cmbIPAddresses.Text = "127.0.0.1";
             // 
             // linkLblPageLink
             // 
@@ -57,16 +46,6 @@
             this.linkLblPageLink.TabStop = true;
             this.linkLblPageLink.Text = "PageLink";
             this.linkLblPageLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblPageLink_LinkClicked);
-            // 
-            // lblIPAddress
-            // 
-            this.lblIPAddress.AutoSize = true;
-            this.lblIPAddress.Location = new System.Drawing.Point(133, 18);
-            this.lblIPAddress.Name = "lblIPAddress";
-            this.lblIPAddress.Size = new System.Drawing.Size(20, 13);
-            this.lblIPAddress.TabIndex = 15;
-            this.lblIPAddress.Text = "IP:";
-            this.lblIPAddress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblPort
             // 
@@ -121,9 +100,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(347, 121);
             this.Controls.Add(this.lblServerState);
-            this.Controls.Add(this.cmbIPAddresses);
             this.Controls.Add(this.linkLblPageLink);
-            this.Controls.Add(this.lblIPAddress);
             this.Controls.Add(this.lblPort);
             this.Controls.Add(this.txtPort);
             this.Controls.Add(this.btnStop);
@@ -139,9 +116,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cmbIPAddresses;
         private System.Windows.Forms.LinkLabel linkLblPageLink;
-        private System.Windows.Forms.Label lblIPAddress;
         private System.Windows.Forms.Label lblPort;
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.Button btnStop;
